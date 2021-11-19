@@ -122,6 +122,10 @@ var HitAndBlow = /** @class */ (function () {
             blow: blowCount
         };
     };
+    HitAndBlow.prototype.end = function () {
+        printLine("\u6B63\u89E3\u3067\u3059\uFF01\n\u8A66\u884C\u56DE\u6570: " + this.tryCount + "\u56DE");
+        process.exit();
+    };
     return HitAndBlow;
 }());
 (function () { return __awaiter(void 0, void 0, void 0, function () {
@@ -134,6 +138,7 @@ var HitAndBlow = /** @class */ (function () {
                 return [4 /*yield*/, hitAndBlow.play()];
             case 1:
                 _a.sent();
+                hitAndBlow.end();
                 return [2 /*return*/];
         }
     });
