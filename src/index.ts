@@ -17,7 +17,7 @@ class HitAndBlow {
     "0",
     "1",
     "2",
-    "3,",
+    "3",
     "4",
     "5",
     "6",
@@ -27,13 +27,10 @@ class HitAndBlow {
   ];
   private answer: string[] = [];
   private tryCount = 0;
-  private mode: Mode;
+  private mode: Mode = "normal";
 
-  constructor(mode: Mode) {
-    this.mode = mode;
-  }
-
-  setting() {
+  async setting() {
+    this.mode = (await promptInput("モードを入力してください")) as Mode;
     const answerLength = this.getAnswerLength();
 
     while (this.answer.length < answerLength) {
@@ -61,13 +58,18 @@ class HitAndBlow {
 
     const result = this.check(inputArr);
 
-    if (result.hit! == this.answer.length) {
-      printLine(`---\nHit: ${result.hit}\nBlow: ${result.blow}\n---}`);
+    if (result.hit !== this.answer.length) {
+      printLine(`---\nHit: ${result.hit}\nBlow: ${result.blow}\n---`);
       this.tryCount += 1;
       await this.play();
     } else {
       this.tryCount += 1;
     }
+  }
+
+  end() {
+    printLine(`正解です！\n試行回数: ${this.tryCount}回`);
+    process.exit();
   }
 
   private check(input: string[]) {
@@ -107,19 +109,14 @@ class HitAndBlow {
         return 4;
       default:
         const neverValue: never = this.mode;
-        throw new Error(`${neverValue}は無効なモードです。`);
+        throw new Error(`${neverValue} は無効なモードです。`);
     }
-  }
-
-  end() {
-    printLine(`正解です！\n試行回数: ${this.tryCount}回`);
-    process.exit();
   }
 }
 
 (async () => {
-  const hitAndBlow = new HitAndBlow("hard");
-  hitAndBlow.setting();
+  const hitAndBlow = new HitAndBlow();
+  await hitAndBlow.setting();
   await hitAndBlow.play();
   hitAndBlow.end();
 })();
