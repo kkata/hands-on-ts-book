@@ -15,25 +15,26 @@ const promptInput = async (text: string) => {
   return readLine();
 };
 
-const promptSelect = async (
+const promptSelect = async <T extends string>(
   text: string,
-  values: readonly string[]
-): Promise<string> => {
+  values: readonly T[]
+): Promise<T> => {
   printLine(`\n${text}`);
   values.forEach((value) => {
     printLine(`- ${value}`);
   });
   printLine(`> `, false);
 
-  const input = await readLine();
+  const input = (await readLine()) as T;
   if (values.includes(input)) {
     return input;
   } else {
-    return promptSelect(text, values);
+    return promptSelect<T>(text, values);
   }
 };
 
-type Mode = "normal" | "hard";
+const modes = ["normal", "hard"] as const;
+type Mode = typeof modes[number];
 
 class HitAndBlow {
   private readonly answerSource = [
@@ -53,10 +54,7 @@ class HitAndBlow {
   private mode: Mode = "normal";
 
   async setting() {
-    this.mode = (await promptSelect("モードを入力してください", [
-      "normal",
-      "hard",
-    ])) as Mode;
+    this.mode = await promptSelect<Mode>("モードを入力してください", modes);
     const answerLength = this.getAnswerLength();
 
     while (this.answer.length < answerLength) {

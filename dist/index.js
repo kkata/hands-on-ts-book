@@ -70,7 +70,7 @@ var promptSelect = function (text, values) { return __awaiter(void 0, void 0, vo
                 printLine("> ", false);
                 return [4 /*yield*/, readLine()];
             case 1:
-                input = _a.sent();
+                input = (_a.sent());
                 if (values.includes(input)) {
                     return [2 /*return*/, input];
                 }
@@ -81,6 +81,7 @@ var promptSelect = function (text, values) { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
+var modes = ["normal", "hard"];
 var HitAndBlow = /** @class */ (function () {
     function HitAndBlow() {
         this.answerSource = [
@@ -106,12 +107,9 @@ var HitAndBlow = /** @class */ (function () {
                 switch (_b.label) {
                     case 0:
                         _a = this;
-                        return [4 /*yield*/, promptSelect("モードを入力してください", [
-                                "normal",
-                                "hard",
-                            ])];
+                        return [4 /*yield*/, promptSelect("モードを入力してください", modes)];
                     case 1:
-                        _a.mode = (_b.sent());
+                        _a.mode = _b.sent();
                         answerLength = this.getAnswerLength();
                         while (this.answer.length < answerLength) {
                             randNum = Math.floor(Math.random() * this.answerSource.length);
