@@ -36,6 +36,42 @@ const promptSelect = async <T extends string>(
 const modes = ["normal", "hard"] as const;
 type Mode = typeof modes[number];
 
+const nextActions = ["play again", "exit"] as const;
+type NextAction = typeof nextActions[number];
+
+class GameProcedure {
+  private currentGameTitle = "hit and blow";
+  private currentGame = new HitAndBlow();
+
+  public async start() {
+    await this.play();
+  }
+
+  private async play() {
+    printLine(`===\n${this.currentGameTitle} を開始します。 \n===`);
+    await this.currentGame.setting();
+    await this.currentGame.play();
+    this.currentGame.end();
+
+    const action = await promptSelect<NextAction>(
+      "ゲームを続けますか？",
+      nextActions
+    );
+    if (action === "play again") {
+      await this.play();
+    } else if (action === "exit") {
+      this.end();
+    } else {
+      const neverValue: never = action;
+      throw new Error(`${neverValue} is an invalid action.`);
+    }
+  }
+
+  private end() {
+    printLine("ゲームを終了しました。");
+    process.exit();
+  }
+}
 class HitAndBlow {
   private readonly answerSource = [
     "0",
@@ -93,7 +129,12 @@ class HitAndBlow {
 
   end() {
     printLine(`正解です！\n試行回数: ${this.tryCount}回`);
-    process.exit();
+    this.reset();
+  }
+
+  private reset() {
+    this.answer = [];
+    this.tryCount = 0;
   }
 
   private check(input: string[]) {
@@ -139,8 +180,5 @@ class HitAndBlow {
 }
 
 (async () => {
-  const hitAndBlow = new HitAndBlow();
-  await hitAndBlow.setting();
-  await hitAndBlow.play();
-  hitAndBlow.end();
+  new GameProcedure().start();
 })();
