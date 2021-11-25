@@ -82,7 +82,7 @@ var promptSelect = function (text, values) { return __awaiter(void 0, void 0, vo
     });
 }); };
 var modes = ["normal", "hard"];
-var nextActions = ["play again", "exit"];
+var nextActions = ["play again", "change game", "exit"];
 var gameTitles = ["hit and blow", "janken"];
 var GameProcedure = /** @class */ (function () {
     function GameProcedure(gameStore) {
@@ -144,17 +144,24 @@ var GameProcedure = /** @class */ (function () {
                         return [4 /*yield*/, this.play()];
                     case 4:
                         _a.sent();
-                        return [3 /*break*/, 6];
+                        return [3 /*break*/, 10];
                     case 5:
-                        if (action === "exit") {
-                            this.end();
-                        }
-                        else {
-                            neverValue = action;
-                            throw new Error(neverValue + " is an invalid action.");
-                        }
-                        _a.label = 6;
-                    case 6: return [2 /*return*/];
+                        if (!(action === "exit")) return [3 /*break*/, 6];
+                        this.end();
+                        return [3 /*break*/, 10];
+                    case 6:
+                        if (!(action === "change game")) return [3 /*break*/, 9];
+                        return [4 /*yield*/, this.select()];
+                    case 7:
+                        _a.sent();
+                        return [4 /*yield*/, this.play()];
+                    case 8:
+                        _a.sent();
+                        return [3 /*break*/, 10];
+                    case 9:
+                        neverValue = action;
+                        throw new Error(neverValue + " is an invalid action.");
+                    case 10: return [2 /*return*/];
                 }
             });
         });

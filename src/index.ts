@@ -36,7 +36,7 @@ const promptSelect = async <T extends string>(
 const modes = ["normal", "hard"] as const;
 type Mode = typeof modes[number];
 
-const nextActions = ["play again", "exit"] as const;
+const nextActions = ["play again", "change game", "exit"] as const;
 type NextAction = typeof nextActions[number];
 
 const gameTitles = ["hit and blow", "janken"] as const;
@@ -81,6 +81,9 @@ class GameProcedure {
       await this.play();
     } else if (action === "exit") {
       this.end();
+    } else if (action === "change game") {
+      await this.select();
+      await this.play();
     } else {
       const neverValue: never = action;
       throw new Error(`${neverValue} is an invalid action.`);
