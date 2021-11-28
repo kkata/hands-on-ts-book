@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "webpack -w",
     "build": "webpack",
-    "serve": "serve ./ -p 8989"
+    "serve": "serve ./ -p 3000"
   },
   "keywords": [],
   "author": "",
