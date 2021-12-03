@@ -31,9 +31,21 @@ class Application {
     const task = new Task({ title: titleInput.value });
     this.taskCollection.add(task);
 
-    this.taskRender.append(task);
+    const { deleteButtonEl } = this.taskRender.append(task);
+
+    this.eventListener.add(task.id, "click", deleteButtonEl, () =>
+      this.handleClickDeleteTask(task)
+    );
 
     titleInput.value = "";
+  };
+
+  private handleClickDeleteTask = (task: Task) => {
+    if (!window.confirm(`「${task.title}を削除してよろしいですか？」`)) return;
+
+    this.eventListener.remove(task.id);
+    this.taskCollection.delete(task);
+    this.taskRender.remove(task);
   };
 }
 
