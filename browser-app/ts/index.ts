@@ -1,5 +1,5 @@
 import { EventListener } from "./EventListener";
-import { Task } from "./Task";
+import { Status, Task } from "./Task";
 import { TaskCollection } from "./TaskCollection";
 import { TaskRenderer } from "./TaskRenderer";
 
@@ -7,7 +7,9 @@ class Application {
   private readonly eventListener = new EventListener();
   private readonly taskCollection = new TaskCollection();
   private readonly taskRender = new TaskRenderer(
-    document.getElementById("todoList") as HTMLElement
+    document.getElementById("todoList") as HTMLElement,
+    document.getElementById("doingList") as HTMLElement,
+    document.getElementById("doneList") as HTMLElement
   );
 
   start() {
@@ -19,6 +21,8 @@ class Application {
       createForm,
       this.handleSubmit
     );
+
+    this.taskRender.subscrbeDragAndDrop(this.handleDropAndDrop);
   }
 
   private handleSubmit = (e: Event) => {
@@ -46,6 +50,20 @@ class Application {
     this.eventListener.remove(task.id);
     this.taskCollection.delete(task);
     this.taskRender.remove(task);
+  };
+
+  private handleDropAndDrop = (
+    el: Element,
+    sibling: Element | null,
+    newStatus: Status
+  ) => {
+    const taskId = this.taskRender.getId(el);
+
+    if (!taskId) return;
+
+    console.log(taskId);
+    console.log(sibling);
+    console.log(newStatus);
   };
 }
 
