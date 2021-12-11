@@ -56,7 +56,7 @@ export class TaskRenderer {
     }
   }
 
-  subscrbeDragAndDrop(
+  subscribeDragAndDrop(
     onDrop: (el: Element, sibling: Element | null, newStatus: Status) => void
   ) {
     dragula([this.todoList, this.doingList, this.doneList]).on(

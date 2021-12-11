@@ -32,7 +32,7 @@ export class TaskCollection {
     this.updateStorage();
   }
 
-  fileter(filterStatus: Status) {
+  filter(filterStatus: Status) {
     return this.tasks.filter(({ status }) => status === filterStatus);
   }
 

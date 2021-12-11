@@ -31,7 +31,7 @@ class Application {
       this.handleClickDeleteAllDoneTasks
     );
 
-    this.taskRender.subscrbeDragAndDrop(this.handleDropAndDrop);
+    this.taskRender.subscribeDragAndDrop(this.handleDropAndDrop);
   }
 
   private handleSubmit = (e: Event) => {
@@ -87,7 +87,7 @@ class Application {
   private handleClickDeleteAllDoneTasks = () => {
     if (!window.confirm("DONE のタスクを一括削除してよろしいですか？")) return;
 
-    const doneTasks = this.taskCollection.fileter(statusMap.done);
+    const doneTasks = this.taskCollection.filter(statusMap.done);
 
     doneTasks.forEach((task) => this.executeDeleteTask(task));
   };
