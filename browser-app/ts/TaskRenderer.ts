@@ -1,6 +1,6 @@
 import dragula from 'dragula'
 
-import { Task, Status, statusMap } from './Task'
+import { Status, Task, statusMap } from './Task'
 
 export class TaskRenderer {
   constructor(
@@ -15,27 +15,6 @@ export class TaskRenderer {
     this.todoList.append(taskEl)
 
     return { deleteButtonEl }
-  }
-
-  private render(task: Task) {
-    // <div class="taskItem">
-    //   <span>タイトル</span>
-    //   <button>削除</button>
-    // </div>
-
-    const taskEl = document.createElement('div')
-    const spanEl = document.createElement('span')
-    const deleteButtonEl = document.createElement('button')
-
-    taskEl.id = task.id
-    taskEl.classList.add('task-item')
-
-    spanEl.textContent = task.title
-    deleteButtonEl.textContent = '削除'
-
-    taskEl.append(spanEl, deleteButtonEl)
-
-    return { taskEl, deleteButtonEl }
   }
 
   remove(task: Task) {
@@ -72,5 +51,26 @@ export class TaskRenderer {
 
   getId(el: Element) {
     return el.id
+  }
+
+  private render(task: Task) {
+    // <div class="taskItem">
+    //   <span>タイトル</span>
+    //   <button>削除</button>
+    // </div>
+
+    const taskEl = document.createElement('div')
+    const spanEl = document.createElement('span')
+    const deleteButtonEl = document.createElement('button')
+
+    taskEl.id = task.id
+    taskEl.classList.add('task-item')
+
+    spanEl.textContent = task.title
+    deleteButtonEl.textContent = '削除'
+
+    taskEl.append(spanEl, deleteButtonEl)
+
+    return { taskEl, deleteButtonEl }
   }
 }

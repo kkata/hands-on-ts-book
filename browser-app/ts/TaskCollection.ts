@@ -1,10 +1,10 @@
 import { Status, Task, TaskObject } from './Task'
 
-const STORAGE_KEY = 'TASK'
+const STORAGE_KEY = 'TASKS'
 
 export class TaskCollection {
   private readonly storage
-  private tasks: Task[] = []
+  private tasks
 
   constructor() {
     this.storage = localStorage
@@ -18,6 +18,7 @@ export class TaskCollection {
 
   delete(task: Task) {
     this.tasks = this.tasks.filter(({ id }) => id !== task.id)
+    this.updateStorage()
   }
 
   find(id: string) {
@@ -29,7 +30,6 @@ export class TaskCollection {
       if (item.id === task.id) return task
       return item
     })
-    this.updateStorage()
   }
 
   filter(filterStatus: Status) {
@@ -61,7 +61,7 @@ export class TaskCollection {
 }
 
 function assertIsTaskObjects(value: any): asserts value is TaskObject[] {
-  if (!Array.isArray(value) || value.every((item) => Task.validate(item))) {
-    throw new Error('引数「value」はTaskObject[]型と一致しません。')
+  if (!Array.isArray(value) || !value.every((item) => Task.validate(item))) {
+    throw new Error('引数「value」は TaskObject[] 型と一致しません。')
   }
 }

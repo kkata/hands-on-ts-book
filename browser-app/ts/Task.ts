@@ -31,7 +31,7 @@ export class Task {
   }
 
   static validate(value: any) {
-    if (!value) return
+    if (!value) return false
     if (!validate(value.id)) return false
     if (!value.title) return false
     if (!Object.values(statusMap).includes(value.status)) return false
