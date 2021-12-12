@@ -1,67 +1,67 @@
-import { Status, Task, TaskObject } from "./Task";
+import { Status, Task, TaskObject } from './Task'
 
-const STORAGE_KEY = "TASK";
+const STORAGE_KEY = 'TASK'
 
 export class TaskCollection {
-  private readonly storage;
-  private tasks: Task[] = [];
+  private readonly storage
+  private tasks: Task[] = []
 
   constructor() {
-    this.storage = localStorage;
-    this.tasks = this.getStoredTasks();
+    this.storage = localStorage
+    this.tasks = this.getStoredTasks()
   }
 
   add(task: Task) {
-    this.tasks.push(task);
-    this.updateStorage();
+    this.tasks.push(task)
+    this.updateStorage()
   }
 
   delete(task: Task) {
-    this.tasks = this.tasks.filter(({ id }) => id !== task.id);
+    this.tasks = this.tasks.filter(({ id }) => id !== task.id)
   }
 
   find(id: string) {
-    return this.tasks.find((task) => task.id === id);
+    return this.tasks.find((task) => task.id === id)
   }
 
   update(task: Task) {
     this.tasks = this.tasks.map((item) => {
-      if (item.id === task.id) return task;
-      return item;
-    });
-    this.updateStorage();
+      if (item.id === task.id) return task
+      return item
+    })
+    this.updateStorage()
   }
 
   filter(filterStatus: Status) {
-    return this.tasks.filter(({ status }) => status === filterStatus);
+    return this.tasks.filter(({ status }) => status === filterStatus)
   }
 
   private updateStorage() {
-    this.storage.setItem(STORAGE_KEY, JSON.stringify(this.tasks));
+    this.storage.setItem(STORAGE_KEY, JSON.stringify(this.tasks))
   }
 
   private getStoredTasks() {
-    const jsonString = this.storage.getItem(STORAGE_KEY);
+    const jsonString = this.storage.getItem(STORAGE_KEY)
 
-    if (!jsonString) return [];
+    if (!jsonString) return []
 
     try {
-      const storedTasks = JSON.parse(jsonString);
+      const storedTasks = JSON.parse(jsonString)
 
-      assertIsTaskObjects(storedTasks);
+      assertIsTaskObjects(storedTasks)
 
-      const tasks = storedTasks.map((task) => new Task(task));
+      const tasks = storedTasks.map((task) => new Task(task))
 
-      return tasks;
+      return tasks
     } catch {
-      this.storage.removeItem(STORAGE_KEY);
-      return [];
+      this.storage.removeItem(STORAGE_KEY)
+      return []
     }
   }
 }
 
 function assertIsTaskObjects(value: any): asserts value is TaskObject[] {
   if (!Array.isArray(value) || value.every((item) => Task.validate(item))) {
-    throw new Error("引数「value」はTaskObject[]型と一致しません。");
+    throw new Error('引数「value」はTaskObject[]型と一致しません。')
   }
 }
