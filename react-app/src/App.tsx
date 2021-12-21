@@ -6,7 +6,7 @@ import { Textarea } from './libs/Textarea'
 export const App = () => {
   return (
     <>
-      <Textarea width={500} />
+      <Textarea width={500} maxLength={10} />
       <Button onClick={() => console.log('clicked!')} title="Button" type="primary" width={96} />
       <Button onClick={() => console.log('clicked!')} title="Button" type="secondary" />
       <Button onClick={() => console.log('clicked!')} title="Button" type="error" />
