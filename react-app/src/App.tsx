@@ -3,10 +3,12 @@ import { Heading } from './libs/Heading'
 import { Button, AlertButton } from './libs/Button'
 import { Textarea } from './libs/Textarea'
 import { Input } from './libs/Input'
+import { PasswordForm } from './libs/PasswordForm'
 
 export const App = () => {
   return (
     <>
+      <PasswordForm onSubmit={(password) => console.log(password)} />
       <Input type="text" />
       <Textarea width={500} maxLength={10} />
       <Button onClick={() => console.log('clicked!')} title="Button" type="primary" width={96} />
